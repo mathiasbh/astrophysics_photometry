@@ -11,7 +11,7 @@ def gauss_2d(dataMatrix, amplitude, xo, yo, sigmax, sigmay, theta, offset):
 
     (X, Y) = unpackMatrix(dataMatrix)
 
-    cossq2 = np.cos(theta)**2
+    cos2 = np.cos(theta)**2
     sin2 = np.sin(theta)**2
     sin_arg2 = np.sin(2*theta)
 
