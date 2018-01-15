@@ -38,4 +38,4 @@ def gauss_fit(dataMatrix, initial_guess):
     popt, pcov = opt.curve_fit(gauss_2d, (X, Y), Z, p0=initial_guess)
     predictionfit = gauss_2d((X, Y), *popt)
 
-    return predictionfit
+    return predictionfit, popt[1], popt[2]
