@@ -1,24 +1,41 @@
 import numpy as np
+import scipy.optimize as opt
 
 def unpackMatrix(dataMatrix):
-
-    return data_tuple
-
-def gauss_2d(dataMatrix, amplitude, xo, yo, sigmax, sigmay, theta, offset):
     """
         Placeholder
     """
 
-    (X, Y) = unpackMatrix(dataMatrix)
+    h, w = dataMatrix.shape
+    X, Y = np.meshgrid(range(w), range(h))
+    X = X.ravel()
+    Y = Y.ravel()
+    Z = dataMatrix.ravel()
+    return X, Y, Z
 
-    cos2 = np.cos(theta)**2
-    sin2 = np.sin(theta)**2
-    sin_arg2 = np.sin(2*theta)
 
-    a = cos2/(2*sigmax**2) + sin2/(2*sigma_y**2)
-    b = -sin_arg2/(4*sigmax**2) + sin_arg2/(4*sigmay**2)
-    c = sin2/(2*sigmax**2) + cos2/(2*sigmay**2)
+def gauss_2d(XY, ampl, x0, y0, sigmax, sigmay, z0):
+    """
+        Placeholder
+    """
 
-    f = amplitude*np.exp(-(a*(X-x0)**2 + 2*b*(X-x0)**(Y-y0) + c*(Y-y0)**2))
+    X, Y = XY
 
-    return f.ravel()
+    x0 = float(x0)
+    y0 = float(y0)
+
+    g = z0 + ampl*np.exp(-0.5*(((X-x0)/sigmax)**2 + ((Y-y0)/sigmay)**2))
+    return g.ravel()
+
+
+def gauss_fit(dataMatrix, initial_guess):
+    """
+        Placeholder
+    """
+
+    X, Y, Z = unpackMatrix(dataMatrix)
+
+    popt, pcov = opt.curve_fit(gauss_2d, (X, Y), Z, p0=initial_guess)
+    predictionfit = gauss_2d((X, Y), *popt)
+
+    return predictionfit
