@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.optimize as opt
 
+
 def unpackMatrix(dataMatrix):
     """
         Placeholder
@@ -38,4 +39,4 @@ def gauss_fit(dataMatrix, initial_guess):
     popt, pcov = opt.curve_fit(gauss_2d, (X, Y), Z, p0=initial_guess)
     predictionfit = gauss_2d((X, Y), *popt)
 
-    return predictionfit, popt[1], popt[2]
+    return predictionfit, int(np.round(popt[1])), int(np.round(popt[2]))
