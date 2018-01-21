@@ -1,6 +1,17 @@
 import numpy as np
 import scipy.optimize as opt
-from src.im2mat import unpackMatrix
+
+def unpackMatrix(dataMatrix):
+    """
+        Placeholder
+    """
+
+    h, w = dataMatrix.shape
+    X, Y = np.meshgrid(range(w), range(h))
+    X = X.ravel()
+    Y = Y.ravel()
+    Z = dataMatrix.ravel()
+    return X, Y, Z
 
 
 def gauss_2d(XY, ampl, x0, y0, sigmax, sigmay, z0):
@@ -27,5 +38,4 @@ def gauss_fit(dataMatrix, initial_guess):
     popt, pcov = opt.curve_fit(gauss_2d, (X, Y), Z, p0=initial_guess)
     predictionfit = gauss_2d((X, Y), *popt)
 
-    # Return fitted pixel coordinates (x, y)
-    return predictionfit, np.round(popt[1]), np.round(popt[2])
+    return predictionfit, popt[1], popt[2]
