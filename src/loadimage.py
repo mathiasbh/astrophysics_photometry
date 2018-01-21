@@ -6,11 +6,13 @@
 # BUGFIXES:
 # 1) Generalize loading
 # 2) Let user circumvent these functions and load file themselves.
+# 3) Make loading large images faster! (don't loop over each pixel)
 
 import os
 from astropy.io import fits
 from PIL import Image
 import numpy as np
+
 
 def checkformat(filepath):
     """
@@ -48,9 +50,13 @@ def loadpng(filepath):
 
     # image.mode -> number of channels rgb, opacity
     dataMatrix = []
-    for i in range(len(pixel_values)):
-        dataMatrix.append(pixel_values[i][0])
+    if image.mode == "I" or  image.mode == "F":
+        dataMatrix = pixel_values
+    else:
+        for i in range(len(pixel_values)):
+            dataMatrix.append(pixel_values[i][0])
 
+    # Reshape into matrix
     dataMatrix = np.array(dataMatrix).reshape((height, width))
     return dataMatrix
 
